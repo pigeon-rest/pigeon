@@ -1,0 +1,45 @@
+@import 'tailwindcss';
+@import '@nuxt/ui';
+
+@theme {
+  --font-sans: 'Outfit', sans-serif;
+  --font-mono: 'IBM Plex Mono', monospace;
+}
+
+:root {
+  --ui-primary: black;
+}
+
+.dark {
+  --ui-primary: white;
+}
+
+.cm-editor {
+  flex: 1;
+}
+
+.cm-editor .cm-scroller {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.cm-editor.cm-focused {
+  outline: none;
+}
+
+.cm-foldPlaceholder {
+  padding-inline: 4px !important;
+}
+
+.cm-lineNumbers {
+  min-width: 3em;
+}
+
+.cm-foldGutter {
+  min-width: 2em;
+}
+
+.cm-gutterElement {
+  text-align: center;
+}
