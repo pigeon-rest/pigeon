@@ -17,7 +17,8 @@
     "@nuxtjs/mdc": "^0.20.0",
     "@vueuse/core": "^14.1.0",
     "@vueuse/nuxt": "^14.1.0",
-    "nuxt": "^4.2.2"
+    "nuxt": "^4.2.2",
+    "valibot": "^1.2.0"
   },
   "devDependencies": {
     "prettier": "^3.8.0",
