@@ -3,9 +3,9 @@ const title = 'Pigeon - API Request Client'
 const description =
   'An easy-to-use API request client for testing and debugging your APIs.'
 
-const isDark = usePreferredDark()
+const colorMode = useColorMode()
 const favicon = computed(() =>
-  isDark.value ? 'favicon-dark.ico' : 'favicon.ico'
+  colorMode.value === 'dark' ? 'favicon-dark.ico' : 'favicon.ico'
 )
 
 useFavicon(favicon)
@@ -23,6 +23,25 @@ useSeoMeta({
 
 <template>
   <UApp>
+    <UDashboardNavbar title="Pigeon">
+      <template #leading>
+        <UIcon name="i-ph-bird-fill" class="text-highlighted" />
+      </template>
+
+      <template #right>
+        <UColorModeButton />
+
+        <UButton
+          to="https://github.com/pigeon-rest/pigeon"
+          target="_blank"
+          icon="i-simple-icons-github"
+          aria-label="GitHub"
+          color="neutral"
+          variant="ghost"
+        />
+      </template>
+    </UDashboardNavbar>
+
     <UMain>
       <NuxtPage />
     </UMain>
