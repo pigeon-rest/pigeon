@@ -26,9 +26,10 @@ const state = reactive<Schema>({
   method: 'GET'
 })
 
+const { isLoading, response, send, abort } = usePigeon()
+
 async function onSubmit({ data }: FormSubmitEvent<Schema>) {
-  // Handle form submission
-  console.log('Form submitted with data:', data)
+  await send({ ...data })
 }
 </script>
 
@@ -58,10 +59,20 @@ async function onSubmit({ data }: FormSubmitEvent<Schema>) {
         </UFormField>
       </div>
       <UButton
+        v-if="isLoading"
+        variant="soft"
+        label="Cancel"
+        class="w-20 shrink-0"
+        block
+        @click="abort()"
+      />
+      <UButton
+        v-else
         type="submit"
         icon="i-ph-paper-plane-tilt"
         label="Send"
-        class="shrink-0"
+        class="w-20 shrink-0"
+        block
       />
     </UForm>
   </div>

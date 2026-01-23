@@ -1,0 +1,44 @@
+export function usePigeon() {
+  const isLoading = ref(false)
+  const response = ref<any>(null)
+  let abortController: AbortController | null = null
+
+  const send = async (data: any) => {
+    isLoading.value = true
+    abortController = new AbortController()
+
+    try {
+      const json = await $fetch('/api/proxy', {
+        method: 'POST',
+        body: {
+          request: {
+            body: data.body,
+            headers: {
+              'User-Agent': 'Pigeon/0.0.1',
+              ...data.headers
+            },
+            method: data.method,
+            url: data.url + (data.params ? `?${new URLSearchParams(data.params).toString()}` : '')
+          }
+        },
+        signal: abortController.signal
+      })
+
+      response.value = json
+    } finally {
+      isLoading.value = false
+      abortController = null
+    }
+  }
+
+  const abort = () => {
+    abortController?.abort()
+  }
+
+  return {
+    isLoading,
+    response,
+    send,
+    abort
+  }
+}
