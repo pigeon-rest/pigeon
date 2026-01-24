@@ -75,5 +75,9 @@ async function onSubmit({ data }: FormSubmitEvent<Schema>) {
         block
       />
     </UForm>
+
+    <div class="relative flex flex-col flex-1 border-t border-t-muted">
+      <UProgress v-if="isLoading" size="2xs" animation="carousel" class="absolute -top-px" />
+    </div>
   </div>
 </template>
