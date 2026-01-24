@@ -22,7 +22,7 @@ It serves as a modern alternative to tools like Postman or Insomnia, running dir
 
 ## 🛠️ Tech Stack
 
-- **Framework**: [Nuxt 3](https://nuxt.com)
+- **Framework**: [Nuxt 4](https://nuxt.com)
 - **UI Library**: [Nuxt UI](https://ui.nuxt.com)
 - **Editor**: [CodeMirror](https://codemirror.net)
 - **Validation**: [Valibot](https://valibot.dev)
