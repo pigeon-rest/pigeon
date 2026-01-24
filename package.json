@@ -21,6 +21,7 @@
     "cookie-es": "^2.0.0",
     "got": "^14.6.6",
     "nuxt": "^4.2.2",
+    "pretty-ms": "^9.3.0",
     "tough-cookie": "^6.0.0",
     "valibot": "^1.2.0"
   },

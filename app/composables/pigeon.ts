@@ -3,6 +3,7 @@ import type { InternalApi } from 'nitropack'
 export function usePigeon() {
   const isLoading = ref(false)
   const response = ref<InternalApi['/api/proxy']['post'] | null>(null)
+  const error = ref<any>(null)
   let abortController: AbortController | null = null
 
   const send = async (data: any) => {
@@ -31,6 +32,8 @@ export function usePigeon() {
       })
 
       response.value = json
+    } catch (err) {
+      error.value = err
     } finally {
       isLoading.value = false
       abortController = null
@@ -44,6 +47,7 @@ export function usePigeon() {
   return {
     isLoading,
     response,
+    error,
     send,
     abort
   }

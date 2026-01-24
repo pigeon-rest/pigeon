@@ -89,7 +89,7 @@ const responseItems = computed<TabsItem[]>(() => [
   }
 ])
 
-const { isLoading, response, send, abort } = usePigeon()
+const { isLoading, response, error, send, abort } = usePigeon()
 
 async function onSubmit({ data }: FormSubmitEvent<Schema>) {
   await send({ ...data })
@@ -182,18 +182,54 @@ async function onSubmit({ data }: FormSubmitEvent<Schema>) {
 
         <Splitter.Panel
           id="splitter-group-response"
-          :min-size="20"
+          :min-size="14"
           class="relative flex flex-col"
         >
-          <UTabs
-            size="xs"
-            variant="link"
-            :items="responseItems"
-            :ui="{
-              trailingBadge: '-my-0.5',
-              content: 'flex flex-col flex-1 overflow-auto'
-            }"
-          ></UTabs>
+          <div
+            v-if="error"
+            class="flex flex-col flex-1 max-h-full overflow-auto"
+          >
+            <UEmpty
+              variant="naked"
+              title="Request failed"
+              :description="error.message || 'No response received.'"
+            >
+              <template #leading>
+                <UBadge
+                  variant="subtle"
+                  color="error"
+                  icon="i-ph-warning-circle"
+                  size="xl"
+                  class="rounded-full"
+                />
+              </template>
+            </UEmpty>
+          </div>
+          <div
+            v-else-if="response"
+            class="relative flex-1 flex flex-col max-h-full"
+          >
+            <ResponseStatusBar :data="response" />
+
+            <UTabs
+              size="xs"
+              variant="link"
+              :items="responseItems"
+              :ui="{
+                trailingBadge: '-my-0.5',
+                content: 'flex flex-col flex-1 overflow-auto'
+              }"
+            ></UTabs>
+          </div>
+          <div v-else class="flex flex-col flex-1 max-h-full overflow-auto">
+            <UEmpty
+              variant="naked"
+              icon="i-ph-bird"
+              title="Send a request to see the response"
+              description="Use the form above to send an HTTP request and view the response details here."
+              class="flex-1"
+            />
+          </div>
         </Splitter.Panel>
       </Splitter.Group>
     </div>
