@@ -23,7 +23,7 @@ useSeoMeta({
 
 <template>
   <UApp>
-    <UDashboardNavbar title="Pigeon">
+    <UDashboardNavbar title="Pigeon" :toggle="false">
       <template #leading>
         <UIcon name="i-ph-bird-fill" class="text-highlighted" />
       </template>

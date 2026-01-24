@@ -73,7 +73,6 @@ export default defineEventHandler(async (event) => {
     } = response.timings.phases
 
     return {
-      success: true,
       response: {
         status: response.statusCode,
         statusText: response.statusMessage,
@@ -113,10 +112,10 @@ export default defineEventHandler(async (event) => {
       }
     }
   } catch (error: any) {
-    console.log('Proxy error:', error)
-    return {
-      success: false,
-      error: error.message || 'Unknown error'
-    }
+    throw createError({
+      statusCode: 500,
+      statusMessage: 'Proxy Error',
+      message: error.message || 'Unknown error'
+    })
   }
 })

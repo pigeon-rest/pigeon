@@ -36,11 +36,15 @@ export default defineAppConfig({
       }
     },
     select: {
+      slots: {
+        item: 'items-center'
+      },
       variants: {
         size: {
           md: {
             leadingIcon: 'size-4',
-            trailingIcon: 'size-4'
+            trailingIcon: 'size-4',
+            itemTrailingIcon: 'size-4'
           }
         }
       }
