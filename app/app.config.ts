@@ -17,16 +17,16 @@ export default defineAppConfig({
     },
     prose: {
       p: {
-        base: 'leading-normal my-2.5 [&:first-child]:mt-0 [&:last-child]:mb-0'
+        base: 'leading-normal my-2.5 first:mt-0 last:mb-0'
       },
       code: {
         base: 'text-xs py-px px-1'
       },
       ul: {
-        base: 'list-disc ps-3 my-2.5 [&:first-child]:mt-0 [&:last-child]:mb-0 marker:text-(--ui-border-accented)'
+        base: 'list-disc ps-3 my-2.5 first:mt-0 last:mb-0 marker:text-(--ui-border-accented)'
       },
       li: {
-        base: 'my-1.5 ps-1.5 leading-normal [&:first-child]:mt-0 [&:last-child]:mb-0 [&>ul]:my-0'
+        base: 'my-1.5 ps-1.5 leading-normal first:mt-0 last:mb-0 [&>ul]:my-0'
       }
     },
     tabs: {
