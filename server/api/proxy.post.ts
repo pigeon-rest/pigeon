@@ -33,8 +33,10 @@ export default defineEventHandler(async (event) => {
   try {
     const isPayloadMethod = !['GET', 'HEAD'].includes(request.method)
     const hasPayload = isPayloadMethod && request.body
-    const jsonBody = hasPayload && typeof request.body === 'object' ? request.body : undefined
-    const textBody = hasPayload && typeof request.body === 'string' ? request.body : undefined
+    const jsonBody =
+      hasPayload && typeof request.body === 'object' ? request.body : undefined
+    const textBody =
+      hasPayload && typeof request.body === 'string' ? request.body : undefined
 
     const response = await got(request.url, {
       method: request.method,
@@ -59,7 +61,10 @@ export default defineEventHandler(async (event) => {
     const requestBodySize = computeBodySize(request.body)
     const responseHeadersSize = computeHeaderSize(response.headers)
     const responseBodySize = computeBodySize(response.rawBody)
-    const networkInfo = getNetworkInfo(response.request.socket as TLSSocket, response.httpVersion)
+    const networkInfo = getNetworkInfo(
+      response.request.socket as TLSSocket,
+      response.httpVersion
+    )
 
     const {
       wait = 0,

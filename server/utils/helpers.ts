@@ -51,10 +51,12 @@ export function getNetworkInfo(socket: TLSSocket, httpVersion: string) {
     ...baseInfo,
     tlsProtocol: socket.getProtocol(),
     cipherName: cipher?.name || null,
-    certificate: cert.subject ? {
-      cn: cert.subject.CN,
-      issuer: cert.issuer.CN,
-      validUntil: cert.valid_to,
-    } : null
+    certificate: cert.subject
+      ? {
+          cn: cert.subject.CN,
+          issuer: cert.issuer.CN,
+          validUntil: cert.valid_to
+        }
+      : null
   }
 }

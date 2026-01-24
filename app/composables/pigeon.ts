@@ -20,7 +20,11 @@ export function usePigeon() {
               ...data.headers
             },
             method: data.method,
-            url: data.url + (data.params ? `?${new URLSearchParams(data.params).toString()}` : '')
+            url:
+              data.url +
+              (data.params
+                ? `?${new URLSearchParams(data.params).toString()}`
+                : '')
           }
         },
         signal: abortController.signal
