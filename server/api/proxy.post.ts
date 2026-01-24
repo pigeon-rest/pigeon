@@ -88,7 +88,7 @@ export default defineEventHandler(async (event) => {
           mediaType: response.headers['content-type']
         },
         meta: {
-          timimgs: {
+          timings: {
             wait,
             dns,
             tcp,
