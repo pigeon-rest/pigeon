@@ -134,11 +134,16 @@ const networkItems = computed(() => {
                 {{ props.data.response.statusText }}
               </div>
             </div>
-            <div class="flex justify-between text-muted">
-              <MDC
+            <div class="flex justify-between text-muted text-xs text-pretty">
+              <Markdown
                 :value="getStatusDescription(props.data.response.status)"
-                class="text-xs"
-              />
+              >
+                <template #fallback>
+                  <USkeleton class="h-3 w-51 mb-2" />
+                  <USkeleton class="h-3 w-51 mb-2" />
+                  <USkeleton class="h-3 w-24" />
+                </template>
+              </Markdown>
             </div>
           </div>
         </div>

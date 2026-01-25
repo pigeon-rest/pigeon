@@ -191,17 +191,26 @@ async function onSubmit({ data }: FormSubmitEvent<Schema>) {
           >
             <UEmpty
               variant="naked"
-              title="Request failed"
-              :description="error.message || 'No response received.'"
+              class="flex-1"
+              :title="error.statusMessage"
+              :description="error.message"
+              :ui="{ header: 'max-w-xl' }"
             >
               <template #leading>
-                <UBadge
-                  variant="subtle"
-                  color="error"
-                  icon="i-ph-warning-circle"
-                  size="xl"
-                  class="rounded-full"
-                />
+                <span
+                  class="inline-flex items-center justify-center select-none rounded-full align-middle bg-error/10 shrink-0 mb-2 size-10 text-xl"
+                >
+                  <UIcon name="i-ph-globe-x" class="text-error" />
+                </span>
+              </template>
+
+              <template #description>
+                <Markdown :value="error.message">
+                  <template #fallback>
+                    <USkeleton class="h-4 w-md mb-2" />
+                    <USkeleton class="h-4 w-2xs mx-auto" />
+                  </template>
+                </Markdown>
               </template>
             </UEmpty>
           </div>
@@ -228,6 +237,7 @@ async function onSubmit({ data }: FormSubmitEvent<Schema>) {
               title="Send a request to see the response"
               description="Use the form above to send an HTTP request and view the response details here."
               class="flex-1"
+              :ui="{ header: 'max-w-xl' }"
             />
           </div>
         </Splitter.Panel>
