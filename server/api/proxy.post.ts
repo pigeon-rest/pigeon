@@ -1,5 +1,5 @@
 import { parseSetCookie } from 'cookie-es'
-import { got } from 'got'
+import { got, RequestError } from 'got'
 import { CookieJar } from 'tough-cookie'
 
 import type { TLSSocket } from 'node:tls'
@@ -116,11 +116,15 @@ export default defineEventHandler(async (event) => {
         }
       }
     }
-  } catch (error: any) {
-    throw createError({
-      statusCode: 500,
-      statusMessage: 'Proxy Error',
-      message: error.message || 'Unknown error'
-    })
+  } catch (error) {
+    if (error instanceof RequestError) {
+      throw createError({
+        statusCode: 500,
+        statusMessage: error.code,
+        message: getErrorDescription(error.code)
+      })
+    }
+
+    throw error
   }
 })

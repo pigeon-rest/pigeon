@@ -60,3 +60,18 @@ export function getNetworkInfo(socket: TLSSocket, httpVersion: string) {
       : null
   }
 }
+
+const NODE_CONNECTION_ERRORS: Record<string, string> = {
+  ECONNREFUSED:
+    'No connection could be made because the target machine actively refused it. This usually results from trying to connect to a service that is inactive on the foreign host.',
+  ECONNRESET:
+    'A connection was forcibly closed by a peer. This normally results from a loss of the connection on the remote socket due to a timeout or reboot. Commonly encountered via the [http](https://nodejs.org/api/http.html) and [net](https://nodejs.org/api/net.html) modules.',
+  ENOTFOUND:
+    'Indicates a DNS failure of either `EAI_NODATA` or `EAI_NONAME`. This is not a standard POSIX error.',
+  ETIMEDOUT:
+    'A connect or send request failed because the connected party did not properly respond after a period of time. Usually encountered by [http](https://nodejs.org/api/http.html) or [net](https://nodejs.org/api/net.html). Often a sign that a `socket.end()` was not properly called.'
+}
+
+export function getErrorDescription(code: string) {
+  return NODE_CONNECTION_ERRORS[code] || 'An unknown network error occurred.'
+}
