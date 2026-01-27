@@ -14,6 +14,8 @@ const schema = v.object({
 
 type Schema = v.InferOutput<typeof schema>
 
+const { isLoading, response, error, send, abort } = usePigeon()
+
 const methods = ref([
   {
     label: 'GET',
@@ -65,6 +67,9 @@ const methods = ref([
     }
   }
 ] satisfies SelectItem[])
+const lang = ref(
+  languageFromContentType(response.value?.response.body.mediaType || '')
+)
 
 function getMethodClass(method: string) {
   return methods.value.find((m) => m.value === method)?.ui.itemLabel
@@ -81,19 +86,27 @@ const requestItems = computed<TabsItem[]>(() => [
     slot: 'body'
   }
 ])
-
 const responseItems = computed<TabsItem[]>(() => [
   {
     label: 'Body',
     slot: 'body'
+  },
+  {
+    label: 'Headers',
+    slot: 'headers'
   }
 ])
-
-const { isLoading, response, error, send, abort } = usePigeon()
 
 async function onSubmit({ data }: FormSubmitEvent<Schema>) {
   await send({ ...data })
 }
+
+watch(
+  () => response.value?.response.body.mediaType,
+  (type) => {
+    lang.value = languageFromContentType(type || '')
+  }
+)
 </script>
 
 <template>
@@ -115,9 +128,9 @@ async function onSubmit({ data }: FormSubmitEvent<Schema>) {
               <UFormField name="method" :error="false">
                 <USelect
                   v-model="state.method"
+                  class="w-28 shrink-0"
                   :items="methods"
                   :ui="{ base: 'rounded-e-none' }"
-                  class="w-28 shrink-0"
                 >
                   <template #default="{ modelValue }">
                     <span
@@ -223,12 +236,21 @@ async function onSubmit({ data }: FormSubmitEvent<Schema>) {
             <UTabs
               size="xs"
               variant="link"
+              class="flex-1 max-h-full"
               :items="responseItems"
               :ui="{
                 trailingBadge: '-my-0.5',
                 content: 'flex flex-col flex-1 overflow-auto'
               }"
-            ></UTabs>
+            >
+              <template #body>
+                <ResponseBody
+                  v-model:lang="lang"
+                  :content="response.response.body.content"
+                  :content-type="response.response.body.mediaType"
+                />
+              </template>
+            </UTabs>
           </div>
           <div v-else class="flex flex-col flex-1 max-h-full overflow-auto">
             <UEmpty

@@ -11,6 +11,15 @@
     "typecheck": "nuxt typecheck"
   },
   "dependencies": {
+    "@codemirror/autocomplete": "^6.20.0",
+    "@codemirror/commands": "^6.10.1",
+    "@codemirror/lang-html": "^6.4.11",
+    "@codemirror/lang-json": "^6.0.2",
+    "@codemirror/lang-xml": "^6.1.0",
+    "@codemirror/language": "^6.12.1",
+    "@codemirror/search": "^6.6.0",
+    "@codemirror/state": "^6.5.4",
+    "@codemirror/view": "^6.39.11",
     "@iconify-json/ph": "^1.2.2",
     "@iconify-json/simple-icons": "^1.2.63",
     "@nuxt/ui": "^4.3.0",
@@ -20,12 +29,14 @@
     "@vueuse/nuxt": "^14.1.0",
     "cookie-es": "^2.0.0",
     "got": "^14.6.6",
+    "mime-types": "^3.0.2",
     "nuxt": "^4.2.2",
     "pretty-ms": "^9.3.0",
     "tough-cookie": "^6.0.0",
     "valibot": "^1.2.0"
   },
   "devDependencies": {
+    "@types/mime-types": "^3.0.1",
     "prettier": "^3.8.0",
     "typescript": "^5.9.3",
     "vue-tsc": "^3.2.1"
