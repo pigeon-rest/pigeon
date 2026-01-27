@@ -12,6 +12,7 @@ const emit = defineEmits<{
 }>()
 
 defineShortcuts({
+  alt_z: () => (isLineWrapped.value = !isLineWrapped.value),
   meta_j: () => download(),
   'meta_.': () => copy(textContent.value)
 })
