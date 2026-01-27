@@ -55,3 +55,27 @@ export function languageFromContentType(contentType: string) {
 
   return 'raw'
 }
+
+export function isImageMimeType(mimeType: string) {
+  return mimeType.startsWith('image/') && mimeType !== 'image/svg+xml'
+}
+
+export function isPDFMimeType(mimeType: string) {
+  return mimeType === 'application/pdf'
+}
+
+export function isHTMLMimeType(mimeType: string) {
+  return mimeType.startsWith('text/html')
+}
+
+export function isSVGMimeType(mimeType: string) {
+  return mimeType === 'image/svg+xml'
+}
+
+export function isAudioMimeType(mimeType: string) {
+  return mimeType.startsWith('audio/')
+}
+
+export function isVideoMimeType(mimeType: string) {
+  return mimeType.startsWith('video/')
+}

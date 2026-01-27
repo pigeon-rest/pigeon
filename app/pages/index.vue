@@ -115,14 +115,14 @@ watch(
       <Splitter.Group id="splitter-group" direction="vertical" class="flex-1">
         <Splitter.Panel
           id="splitter-group-request"
-          :min-size="14"
           class="relative flex flex-col max-h-full"
+          :min-size="14"
         >
           <UForm
+            class="flex gap-2 px-6 py-4"
             :schema="schema"
             :state="state"
             @submit.prevent="onSubmit"
-            class="flex gap-2 px-6 py-4"
           >
             <div class="flex w-full">
               <UFormField name="method" :error="false">
@@ -145,8 +145,8 @@ watch(
               <UFormField name="url" class="flex-1" :error="false">
                 <UInput
                   v-model="state.url"
-                  :ui="{ base: 'rounded-s-none -ms-px' }"
                   class="w-full"
+                  :ui="{ base: 'rounded-s-none -ms-px' }"
                 />
               </UFormField>
             </div>
@@ -191,12 +191,12 @@ watch(
         <Splitter.ResizeHandle
           id="splitter-group-resize-handle"
           class="relative h-px bg-accented group"
-        ></Splitter.ResizeHandle>
+        />
 
         <Splitter.Panel
           id="splitter-group-response"
-          :min-size="14"
           class="relative flex flex-col"
+          :min-size="20"
         >
           <div
             v-if="error"
