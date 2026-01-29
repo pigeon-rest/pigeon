@@ -82,24 +82,6 @@ defineShortcuts({
             </div>
           </Collapsible.Content>
         </Collapsible.Root>
-        <!-- <div
-          v-for="shortcut in shortcuts"
-          :key="shortcut.name"
-          class="flex justify-between items-center"
-        >
-          <span class="text-sm">
-            {{ shortcut.name }}
-          </span>
-          <div class="flex gap-x-2">
-            <UKbd
-              v-for="kbd in shortcut.kbds"
-              :key="kbd"
-              variant="subtle"
-              class="font-kbd"
-              :value="kbd"
-            />
-          </div>
-        </div> -->
       </div>
     </template>
   </UModal>
