@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { defaultWindow } from '@vueuse/core'
 import mime from 'mime-types'
 
 const props = defineProps<{
@@ -13,10 +12,10 @@ const emit = defineEmits<{
 }>()
 
 defineShortcuts({
-  alt_p: () => (showPreview.value = !showPreview.value),
   alt_z: () => (isLineWrapped.value = !isLineWrapped.value),
   meta_j: () => download(),
-  'meta_.': () => copy(textContent.value)
+  'meta_.': () => copy(textContent.value),
+  meta_shift_v: () => (showPreview.value = !showPreview.value)
 })
 
 const lang = computed({
@@ -64,12 +63,6 @@ function download() {
   link.download = `response-${Date.now()}.${extension}`
   link.click()
   URL.revokeObjectURL(url)
-}
-
-function svgBase64Encode(svg: string) {
-  console.log('svg', svg)
-  const { base64 } = useBase64('hello')
-  return base64.value
 }
 
 watchEffect((onCleanup) => {

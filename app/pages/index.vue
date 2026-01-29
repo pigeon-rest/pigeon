@@ -71,9 +71,7 @@ const lang = ref(
   languageFromContentType(response.value?.response.body.mediaType || '')
 )
 
-function getMethodClass(method: string) {
-  return methods.value.find((m) => m.value === method)?.ui.itemLabel
-}
+const form = useTemplateRef('form')
 
 const state = reactive<Schema>({
   url: '',
@@ -93,9 +91,45 @@ const responseItems = computed<TabsItem[]>(() => [
   },
   {
     label: 'Headers',
-    slot: 'headers'
+    slot: 'headers',
+    badge: response.value
+      ? {
+          label: Object.keys(response.value.response.headers).length.toString(),
+          variant: 'soft'
+        }
+      : undefined
   }
 ])
+
+defineShortcuts({
+  meta_enter: () => form.value?.submit(),
+  alt_arrowup: () => nextMethod(),
+  alt_arrowdown: () => previousMethod(),
+  alt_g: () => (state.method = 'GET'),
+  alt_p: () => (state.method = 'POST'),
+  alt_u: () => (state.method = 'PUT'),
+  alt_x: () => (state.method = 'DELETE'),
+  alt_h: () => (state.method = 'HEAD')
+})
+
+function getMethodClass(method: string) {
+  return methods.value.find((m) => m.value === method)?.ui.itemLabel
+}
+
+function nextMethod() {
+  const currentIndex = methods.value.findIndex((m) => m.value === state.method)
+  const nextIndex = (currentIndex + 1) % methods.value.length
+
+  state.method = methods.value[nextIndex]!.value as typeof state.method
+}
+
+function previousMethod() {
+  const currentIndex = methods.value.findIndex((m) => m.value === state.method)
+  const previousIndex =
+    (currentIndex - 1 + methods.value.length) % methods.value.length
+
+  state.method = methods.value[previousIndex]!.value as typeof state.method
+}
 
 async function onSubmit({ data }: FormSubmitEvent<Schema>) {
   await send({ ...data })
@@ -119,6 +153,7 @@ watch(
           :min-size="14"
         >
           <UForm
+            ref="form"
             class="flex gap-2 px-6 py-4"
             :schema="schema"
             :state="state"
@@ -250,6 +285,10 @@ watch(
                   :content-type="response.response.body.mediaType"
                 />
               </template>
+
+              <template #headers>
+                <ResponseHeaders :data="response.response.headers" />
+              </template>
             </UTabs>
           </div>
           <div v-else class="flex flex-col flex-1 max-h-full overflow-auto">
@@ -260,7 +299,14 @@ watch(
               description="Use the form above to send an HTTP request and view the response details here."
               class="flex-1"
               :ui="{ header: 'max-w-xl' }"
-            />
+            >
+              <template #actions>
+                <div class="flex items-center gap-x-2">
+                  <span class="text-xs text-muted"> Keyboard shortcuts </span>
+                  <UKbd variant="subtle" value="?" class="font-kbd" />
+                </div>
+              </template>
+            </UEmpty>
           </div>
         </Splitter.Panel>
       </Splitter.Group>

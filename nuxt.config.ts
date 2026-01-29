@@ -18,5 +18,13 @@ export default defineNuxtConfig({
     head: {
       link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }]
     }
+  },
+
+  typescript: {
+    tsConfig: {
+      compilerOptions: {
+        lib: ['esnext.typedarrays']
+      }
+    }
   }
 })

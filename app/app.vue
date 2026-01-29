@@ -4,9 +4,14 @@ const description =
   'An easy-to-use API request client for testing and debugging your APIs.'
 
 const colorMode = useColorMode()
+
 const favicon = computed(() =>
   colorMode.value === 'dark' ? 'favicon-dark.ico' : 'favicon.ico'
 )
+
+function toggleColorMode() {
+  colorMode.value = colorMode.value === 'dark' ? 'light' : 'dark'
+}
 
 useFavicon(favicon)
 
@@ -19,10 +24,16 @@ useSeoMeta({
   twitterImage: 'https://ui.nuxt.com/assets/templates/nuxt/starter-light.png',
   twitterCard: 'summary_large_image'
 })
+
+defineShortcuts({
+  t: () => toggleColorMode()
+})
 </script>
 
 <template>
   <UApp>
+    <ShortcutsModal />
+
     <UDashboardNavbar title="Pigeon" :toggle="false">
       <template #leading>
         <UIcon name="i-ph-bird-fill" class="text-highlighted" />
