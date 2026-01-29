@@ -49,6 +49,19 @@ const isLineWrapped = ref(true)
 const previewUrl = ref<string | null>(null)
 const showPreview = ref(true)
 
+const formattedContent = computed(() => {
+  if (props.lang === 'json') {
+    try {
+      const obj = JSON.parse(textContent.value)
+      return JSON.stringify(obj, null, 2)
+    } catch {
+      return textContent.value
+    }
+  }
+
+  return textContent.value
+})
+
 const { copy, copied } = useClipboard()
 const colorMode = useColorMode()
 const codemirror = useCodeMirror({ theme: colorMode.value, readOnly: true })
@@ -80,7 +93,7 @@ watchEffect((onCleanup) => {
 watch([editor, isPreviewable, showPreview], ([el, previewable, show]) => {
   if (el && !(previewable && show)) {
     codemirror.initEditor(el, {
-      content: textContent.value,
+      content: formattedContent.value,
       lang: props.lang,
       wrap: isLineWrapped.value,
       theme: colorMode.value
@@ -90,7 +103,7 @@ watch([editor, isPreviewable, showPreview], ([el, previewable, show]) => {
   }
 })
 
-watch(textContent, (c) => codemirror.setContent(c))
+watch(formattedContent, (c) => codemirror.setContent(c))
 watch(lang, (l) => codemirror.setLanguage(l))
 watch(isLineWrapped, (w) => codemirror.setLineWrapping(w))
 watch(colorMode, (m) => codemirror.setTheme(m.value))

@@ -99,6 +99,7 @@ export function useCodeMirror(config?: CodeMirrorConfig) {
           ...foldKeymap,
           ...completionKeymap
         ]),
+        EditorView.editorAttributes.of({ class: 'overflow-auto' }),
         EditorView.updateListener.of((update) => {
           if (update.docChanged && state.onChange) {
             state.onChange(update.state.doc.toString())
