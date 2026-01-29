@@ -10,7 +10,7 @@ const favicon = computed(() =>
 )
 
 function toggleColorMode() {
-  colorMode.value = colorMode.value === 'dark' ? 'light' : 'dark'
+  colorMode.preference = colorMode.value === 'dark' ? 'light' : 'dark'
 }
 
 useFavicon(favicon)
