@@ -20,11 +20,7 @@ export default defineNuxtConfig({
     }
   },
 
-  typescript: {
-    tsConfig: {
-      compilerOptions: {
-        lib: ['esnext.typedarrays']
-      }
-    }
+  icon: {
+    mode: 'svg'
   }
 })

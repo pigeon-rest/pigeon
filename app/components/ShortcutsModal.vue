@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import { Collapsible } from 'reka-ui/namespaced'
-
 const open = ref(false)
 const groups = ref([
   {
@@ -20,7 +18,8 @@ const groups = ref([
       { name: 'Select POST method', kbds: ['alt', 'p'] },
       { name: 'Select PUT method', kbds: ['alt', 'u'] },
       { name: 'Select DELETE method', kbds: ['alt', 'x'] },
-      { name: 'Select HEAD method', kbds: ['alt', 'h'] }
+      { name: 'Select HEAD method', kbds: ['alt', 'h'] },
+      { name: 'Upload file', kbds: ['ctrl', 'u'] }
     ]
   },
   {
@@ -28,7 +27,6 @@ const groups = ref([
     items: [
       { name: 'Download response as file', kbds: ['meta', 'j'] },
       { name: 'Copy response to clipboard', kbds: ['meta', '.'] },
-      { name: 'Toggle line wrapping', kbds: ['alt', 'z'] },
       { name: 'Toggle response preview', kbds: ['meta', 'shift', 'v'] }
     ]
   }
@@ -40,49 +38,61 @@ defineShortcuts({
 </script>
 
 <template>
-  <UModal v-model:open="open" title="Keyboard Shortcuts">
-    <template #body>
-      <div class="flex flex-col gap-y-3">
-        <Collapsible.Root
-          v-for="group in groups"
-          default-open
-          :key="group.name"
-        >
-          <Collapsible.Trigger
-            class="group flex items-center gap-x-2 w-full text-sm font-medium hover:text-highlighted transition-colors duration-200"
-          >
-            <UIcon
-              name="i-ph-caret-right"
-              size="12"
-              class="text-muted group-hover:text-highlighted group-data-[state=open]:rotate-90 transition duration-200"
-            />
-            {{ group.name }}
-          </Collapsible.Trigger>
+  <UModal
+    v-model:open="open"
+    title="Keyboard Shortcuts"
+    :ui="{
+      title: 'inline-flex gap-x-2 items-center',
+      body: 'flex flex-col gap-y-3'
+    }"
+  >
+    <template #title>
+      <UIcon name="i-ph-keyboard" class="text-muted" />
+      Keyboard Shortcuts
+    </template>
 
-          <Collapsible.Content
-            class="flex flex-col gap-y-2 mt-2 data-[state=open]:animate-[collapsible-down_200ms_ease-out] data-[state=closed]:animate-[collapsible-up_200ms_ease-out] overflow-hidden"
+    <template #body>
+      <UCollapsible
+        v-for="group in groups"
+        :key="group.name"
+        default-open
+        class="flex flex-col gap-2 w-full"
+        :ui="{
+          content: 'flex flex-col gap-y-2'
+        }"
+      >
+        <UButton
+          :label="group.name"
+          color="neutral"
+          variant="link"
+          leading-icon="i-ph-caret-right"
+          class="group"
+          :ui="{
+            base: 'p-0',
+            leadingIcon:
+              'size-3 group-data-[state=open]:rotate-90 transition-transform duration-200'
+          }"
+        />
+
+        <template #content>
+          <div
+            v-for="shortcut in group.items"
+            :key="shortcut.name"
+            class="flex justify-between items-center"
           >
-            <div
-              v-for="shortcut in group.items"
-              :key="shortcut.name"
-              class="flex justify-between items-center"
-            >
-              <span class="text-xs text-muted">
-                {{ shortcut.name }}
-              </span>
-              <div class="flex gap-x-2">
-                <UKbd
-                  v-for="kbd in shortcut.kbds"
-                  :key="kbd"
-                  variant="subtle"
-                  class="font-kbd"
-                  :value="kbd"
-                />
-              </div>
+            <span class="text-xs">
+              {{ shortcut.name }}
+            </span>
+            <div class="flex gap-x-2">
+              <UKbd
+                v-for="(kbd, index) in shortcut.kbds"
+                :key="index"
+                :value="kbd"
+              />
             </div>
-          </Collapsible.Content>
-        </Collapsible.Root>
-      </div>
+          </div>
+        </template>
+      </UCollapsible>
     </template>
   </UModal>
 </template>

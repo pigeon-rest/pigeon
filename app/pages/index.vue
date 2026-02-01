@@ -71,6 +71,9 @@ const lang = ref(
   languageFromContentType(response.value?.response.body.mediaType || '')
 )
 
+const requestBodyContent = ref('')
+const requestBodyLang = ref('json')
+
 const form = useTemplateRef('form')
 
 const state = reactive<Schema>({
@@ -149,77 +152,89 @@ watch(
       <Splitter.Group id="splitter-group" direction="vertical" class="flex-1">
         <Splitter.Panel
           id="splitter-group-request"
-          class="relative flex flex-col max-h-full"
+          class="relative flex flex-col"
           :min-size="14"
         >
-          <UForm
-            ref="form"
-            class="flex gap-2 px-6 py-4"
-            :schema="schema"
-            :state="state"
-            @submit.prevent="onSubmit"
-          >
-            <div class="flex w-full">
-              <UFormField name="method" :error="false">
-                <USelect
-                  v-model="state.method"
-                  class="w-28 shrink-0"
-                  :items="methods"
-                  :ui="{ base: 'rounded-e-none' }"
-                >
-                  <template #default="{ modelValue }">
-                    <span
-                      class="font-medium"
-                      :class="getMethodClass(modelValue!)"
-                    >
-                      {{ modelValue }}
-                    </span>
-                  </template>
-                </USelect>
-              </UFormField>
-              <UFormField name="url" class="flex-1" :error="false">
-                <UInput
-                  v-model="state.url"
-                  class="w-full"
-                  :ui="{ base: 'rounded-s-none -ms-px' }"
-                />
-              </UFormField>
+          <div class="flex flex-col flex-1 max-h-full">
+            <UForm
+              ref="form"
+              class="relative flex gap-2 px-6 py-4"
+              :schema="schema"
+              :state="state"
+              @submit.prevent="onSubmit"
+            >
+              <div class="flex w-full">
+                <UFormField name="method" :error="false">
+                  <USelect
+                    v-model="state.method"
+                    class="w-28 shrink-0"
+                    :items="methods"
+                    :ui="{ base: 'rounded-e-none' }"
+                  >
+                    <template #default="{ modelValue }">
+                      <span
+                        class="font-medium"
+                        :class="getMethodClass(modelValue!)"
+                      >
+                        {{ modelValue }}
+                      </span>
+                    </template>
+                  </USelect>
+                </UFormField>
+                <UFormField name="url" class="flex-1" :error="false">
+                  <UInput
+                    v-model="state.url"
+                    class="w-full"
+                    :ui="{ base: 'rounded-s-none -ms-px' }"
+                  />
+                </UFormField>
+              </div>
+              <UButton
+                v-if="isLoading"
+                variant="soft"
+                label="Cancel"
+                class="w-20 shrink-0"
+                block
+                @click="abort()"
+              />
+              <UButton
+                v-else
+                type="submit"
+                icon="i-ph-paper-plane-tilt"
+                label="Send"
+                class="w-20 shrink-0"
+                block
+              />
+
+              <UProgress
+                v-if="isLoading"
+                size="2xs"
+                animation="carousel"
+                class="absolute z-10 -bottom-px -mx-6"
+              />
+            </UForm>
+
+            <div
+              class="relative flex flex-col flex-1 border-t border-accented overflow-y-hidden"
+            >
+              <UTabs
+                size="xs"
+                variant="link"
+                class="flex-1 max-h-full"
+                :items="requestItems"
+                :ui="{
+                  trailingBadge: '-my-0.5',
+                  content: 'flex flex-col flex-1 overflow-y-hidden'
+                }"
+              >
+                <template #body>
+                  <RequestBody
+                    v-model:content="requestBodyContent"
+                    v-model:lang="requestBodyLang"
+                  />
+                </template>
+              </UTabs>
             </div>
-            <UButton
-              v-if="isLoading"
-              variant="soft"
-              label="Cancel"
-              class="w-20 shrink-0"
-              block
-              @click="abort()"
-            />
-            <UButton
-              v-else
-              type="submit"
-              icon="i-ph-paper-plane-tilt"
-              label="Send"
-              class="w-20 shrink-0"
-              block
-            />
-          </UForm>
-
-          <div class="relative border-t border-accented">
-            <UProgress
-              v-if="isLoading"
-              size="2xs"
-              animation="carousel"
-              class="absolute -top-px"
-            />
-
-            <UTabs
-              size="xs"
-              variant="link"
-              :items="requestItems"
-              :ui="{
-                trailingBadge: '-my-0.5',
-                content: 'flex flex-col flex-1 overflow-auto'
-              }"
-            />
           </div>
         </Splitter.Panel>
 
@@ -301,9 +316,12 @@ watch(
               :ui="{ header: 'max-w-xl' }"
             >
               <template #actions>
-                <div class="flex items-center gap-x-2">
-                  <span class="text-xs text-muted"> Keyboard shortcuts </span>
-                  <UKbd variant="subtle" value="?" class="font-kbd" />
+                <div class="flex items-center gap-x-1.5">
+                  <span class="text-xs text-highlighted">
+                    Keyboard shortcuts
+                  </span>
+                  <span class="text-xs text-highlighted">·</span>
+                  <UKbd value="?" size="sm" />
                 </div>
               </template>
             </UEmpty>

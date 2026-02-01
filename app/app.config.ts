@@ -49,6 +49,11 @@ export default defineAppConfig({
         }
       }
     },
+    kbd: {
+      base: 'font-mono capitalize',
+      compoundVariants: [{ class: 'text-muted' }],
+      defaultVariants: { variant: 'soft' }
+    },
     icons: {
       arrowDown: 'i-ph-arrow-down',
       arrowLeft: 'i-ph-arrow-left',

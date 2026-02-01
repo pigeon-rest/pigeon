@@ -10,17 +10,6 @@ const copiedKey = ref<string | null>(null)
 
 const entries = computed(() => Object.entries(props.data))
 
-// const responseHeaders = computed(() => {
-//   const headers = props.data || {}
-
-//   return Object.entries(headers)
-//     .sort(([keyA], [keyB]) => keyA.localeCompare(keyB))
-//     .map(([key, value]) => ({
-//       key,
-//       value: String(value)
-//     }))
-// })
-
 function copy(key: string, value: string) {
   _copy(value)
   copiedKey.value = key

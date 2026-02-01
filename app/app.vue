@@ -45,7 +45,7 @@ defineShortcuts({
         <UButton
           to="https://github.com/pigeon-rest/pigeon"
           target="_blank"
-          icon="i-simple-icons-github"
+          icon="i-ri-github-fill"
           aria-label="GitHub"
           color="neutral"
           variant="ghost"

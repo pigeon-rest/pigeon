@@ -69,7 +69,9 @@ const NODE_CONNECTION_ERRORS: Record<string, string> = {
   ENOTFOUND:
     'Indicates a DNS failure of either `EAI_NODATA` or `EAI_NONAME`. This is not a standard POSIX error.',
   ETIMEDOUT:
-    'A connect or send request failed because the connected party did not properly respond after a period of time. Usually encountered by [http](https://nodejs.org/api/http.html) or [net](https://nodejs.org/api/net.html). Often a sign that a `socket.end()` was not properly called.'
+    'A connect or send request failed because the connected party did not properly respond after a period of time. Usually encountered by [http](https://nodejs.org/api/http.html) or [net](https://nodejs.org/api/net.html). Often a sign that a `socket.end()` was not properly called.',
+  ERR_UNSUPPORTED_PROTOCOL:
+    '`http.connect()` was passed a URL that uses any protocol other than `http:` or `https:`.'
 }
 
 export function getErrorDescription(code: string) {

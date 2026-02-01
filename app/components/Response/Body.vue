@@ -12,7 +12,6 @@ const emit = defineEmits<{
 }>()
 
 defineShortcuts({
-  alt_z: () => (isLineWrapped.value = !isLineWrapped.value),
   meta_j: () => download(),
   'meta_.': () => copy(textContent.value),
   meta_shift_v: () => (showPreview.value = !showPreview.value)
@@ -49,22 +48,12 @@ const isLineWrapped = ref(true)
 const previewUrl = ref<string | null>(null)
 const showPreview = ref(true)
 
-const formattedContent = computed(() => {
-  if (props.lang === 'json') {
-    try {
-      const obj = JSON.parse(textContent.value)
-      return JSON.stringify(obj, null, 2)
-    } catch {
-      return textContent.value
-    }
-  }
-
-  return textContent.value
-})
+const formattedContent = ref('')
 
 const { copy, copied } = useClipboard()
 const colorMode = useColorMode()
 const codemirror = useCodeMirror({ theme: colorMode.value, readOnly: true })
+const { format } = usePrettier()
 
 function download() {
   const blob = new Blob([uint8Content.value], { type: mimeType.value })
@@ -77,6 +66,17 @@ function download() {
   link.click()
   URL.revokeObjectURL(url)
 }
+
+watchEffect(async () => {
+  const rawContent = textContent.value
+
+  if (!rawContent) {
+    formattedContent.value = ''
+    return
+  }
+
+  formattedContent.value = await format(rawContent, props.lang)
+})
 
 watchEffect((onCleanup) => {
   if (isPreviewable.value && uint8Content.value.length > 0) {
@@ -123,13 +123,22 @@ onUnmounted(codemirror.destroy)
       />
 
       <div class="flex items-center gap-1">
-        <template v-if="isPreviewable">
-          <UCheckbox v-model="showPreview" size="sm" label="Preview" />
-          <USeparator orientation="vertical" class="h-6 mx-1" />
-        </template>
         <USwitch v-model="isLineWrapped" size="xs" label="Wrap Lines" />
         <USeparator orientation="vertical" class="h-6 mx-1" />
-        <UTooltip arrow text="Download" :kbds="['ctrl', 'J']">
+        <UTooltip
+          v-if="isPreviewable"
+          arrow
+          :text="showPreview ? 'Code view' : 'Preview'"
+          :kbds="['ctrl', 'shift', 'v']"
+        >
+          <UButton
+            size="xs"
+            variant="ghost"
+            :icon="showPreview ? 'i-ph-eye' : 'i-ph-code'"
+            @click="showPreview = !showPreview"
+          />
+        </UTooltip>
+        <UTooltip arrow text="Download" :kbds="['ctrl', 'j']">
           <UButton
             icon="i-ph-download-simple"
             size="xs"
