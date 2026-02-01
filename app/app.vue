@@ -33,14 +33,15 @@ const { data } = await useFetch<any>(
   'https://api.github.com/repos/pigeon-rest/pigeon'
 )
 
-const formatNumber = (value: number) => {
-  const formatter = new Intl.NumberFormat('en-US', {
-    notation: 'compact',
-    maximumFractionDigits: 1
-  })
+const formatted = computed(() => {
+  const count = data.value?.stargazers_count
 
-  return formatter.format(value)
-}
+  if (!count) return '...'
+
+  return count >= 1000
+    ? `${(count / 1000).toFixed(1)}k`
+    : count.toLocaleString()
+})
 </script>
 
 <template>
@@ -60,15 +61,11 @@ const formatNumber = (value: number) => {
             to="https://github.com/pigeon-rest/pigeon"
             target="_blank"
             icon="i-ph-github-logo"
-            :label="
-              data.stargazers_count
-                ? formatNumber(data.stargazers_count)
-                : '...'
-            "
-            aria-label="GitHub"
+            aria-label="Pigeon REST on GitHub"
             size="sm"
             color="neutral"
             variant="ghost"
+            :label="formatted"
           />
         </UTooltip>
       </template>
