@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import mime from 'mime-types'
+import type { SelectItem } from '@nuxt/ui'
 
 const props = defineProps<{
   content: number[]
@@ -16,6 +16,25 @@ defineShortcuts({
   'meta_.': () => copy(textContent.value),
   meta_shift_v: () => (showPreview.value = !showPreview.value)
 })
+
+const languages = ref<SelectItem[]>([
+  {
+    label: 'JSON',
+    value: 'json'
+  },
+  {
+    label: 'XML',
+    value: 'xml'
+  },
+  {
+    label: 'HTML',
+    value: 'html'
+  },
+  {
+    label: 'Raw',
+    value: 'raw'
+  }
+])
 
 const lang = computed({
   get: () => props.lang,
@@ -59,7 +78,7 @@ function download() {
   const blob = new Blob([uint8Content.value], { type: mimeType.value })
   const url = URL.createObjectURL(blob)
   const link = document.createElement('a')
-  const extension = mime.extension(mimeType.value) || 'txt'
+  const extension = mimeToLang(mimeType.value)
 
   link.href = url
   link.download = `response-${Date.now()}.${extension}`
@@ -116,10 +135,10 @@ onUnmounted(codemirror.destroy)
     <div class="flex justify-between py-2">
       <USelect
         v-model="lang"
-        :items="LANGUAGE_OPTIONS"
         size="xs"
         variant="subtle"
         class="w-24"
+        :items="languages"
       />
 
       <div class="flex items-center gap-1">

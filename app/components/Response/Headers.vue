@@ -5,10 +5,11 @@ const props = defineProps<{
   data: IncomingHttpHeaders
 }>()
 
-const { copy: _copy, copied } = useClipboard()
 const copiedKey = ref<string | null>(null)
 
 const entries = computed(() => Object.entries(props.data))
+
+const { copy: _copy, copied } = useClipboard()
 
 function copy(key: string, value: string) {
   _copy(value)

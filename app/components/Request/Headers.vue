@@ -18,13 +18,13 @@ const headers = computed({
   set: (value) => emit('update:modelValue', value)
 })
 
-const onInput = (index: number) => {
+function onInput(index: number) {
   if (index === headers.value.length - 1) {
     addHeader()
   }
 }
 
-const addHeader = () => {
+function addHeader() {
   const newHeaders = [...headers.value]
 
   newHeaders.push({
@@ -36,7 +36,7 @@ const addHeader = () => {
   emit('update:modelValue', newHeaders)
 }
 
-const removeHeader = (index: number) => {
+function removeHeader(index: number) {
   const newHeaders = [...headers.value]
 
   newHeaders.splice(index, 1)

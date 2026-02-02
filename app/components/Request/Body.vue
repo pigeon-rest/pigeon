@@ -1,26 +1,29 @@
 <script setup lang="ts">
 const props = defineProps<{
   content: string
-  lang: string
+  mime: string
   ext?: string
 }>()
 
 const emit = defineEmits<{
   'update:content': [value: string]
-  'update:lang': [value: string]
+  'update:mime': [value: string]
 }>()
 
 const isLineWrapped = ref(true)
 const fileUploadRef = ref()
+const contentTypes = ref(
+  Object.keys(MIME_TYPES).filter((type) => type !== 'image/svg+xml')
+)
 
 defineShortcuts({
   meta_shift_f: () => formatContent(),
   meta_u: () => fileUploadRef.value.inputRef.click()
 })
 
-const lang = computed({
-  get: () => props.lang,
-  set: (value: string) => emit('update:lang', value)
+const mime = computed({
+  get: () => props.mime,
+  set: (value: string) => emit('update:mime', value)
 })
 
 const colorMode = useColorMode()
@@ -33,7 +36,7 @@ watch(editor, (el) => {
   if (el) {
     codemirror.initEditor(el, {
       content: props.content,
-      lang: props.lang,
+      lang: mimeToLang(props.mime),
       wrap: isLineWrapped.value,
       onChange: (newContent) => emit('update:content', newContent)
     })
@@ -45,7 +48,7 @@ watch(editor, (el) => {
 const file = ref<File | null>(null)
 
 async function formatContent() {
-  const formatted = await format(props.content, props.lang)
+  const formatted = await format(props.content, mimeToLang(props.mime))
 
   emit('update:content', formatted)
 }
@@ -59,7 +62,7 @@ function onFileChange() {
 
       if (typeof result === 'string') {
         emit('update:content', result)
-        emit('update:lang', languageFromContentType(file.value?.type || ''))
+        emit('update:mime', file.value?.type || '')
       }
     }
 
@@ -69,7 +72,10 @@ function onFileChange() {
 
 watch(colorMode, (theme) => codemirror.setTheme(theme.value))
 watch(() => props.content, codemirror.setContent)
-watch(() => props.lang, codemirror.setLanguage)
+watch(
+  () => props.mime,
+  () => codemirror.setLanguage(mimeToLang(props.mime) || 'plaintext')
+)
 watch(isLineWrapped, codemirror.setLineWrapping)
 
 onUnmounted(() => codemirror.destroy())
@@ -79,11 +85,11 @@ onUnmounted(() => codemirror.destroy())
   <div class="flex flex-col px-6 pb-6 flex-1 max-h-full">
     <div class="flex justify-between py-2">
       <USelect
-        v-model="lang"
-        :items="LANGUAGE_OPTIONS"
+        v-model="mime"
         size="xs"
         variant="subtle"
-        class="w-24"
+        :items="contentTypes"
+        :ui="{ content: 'w-fit' }"
       />
 
       <div class="flex items-center gap-1">

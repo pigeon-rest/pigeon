@@ -1,5 +1,3 @@
-import type { SelectItem } from '@nuxt/ui'
-
 export const STATUS_DESCRIPTIONS: Record<number, string> = {
   // 1xx: Informational
   100: 'This interim response indicates that the client should continue the request or ignore the response if the request is already finished.',
@@ -75,21 +73,13 @@ export const STATUS_DESCRIPTIONS: Record<number, string> = {
   511: 'Indicates that the client needs to authenticate to gain network access.'
 }
 
-export const LANGUAGE_OPTIONS: SelectItem[] = [
-  {
-    label: 'JSON',
-    value: 'json'
-  },
-  {
-    label: 'XML',
-    value: 'xml'
-  },
-  {
-    label: 'HTML',
-    value: 'html'
-  },
-  {
-    label: 'Raw',
-    value: 'raw'
-  }
-]
+export const MIME_TYPES: Record<string, string> = {
+  'application/json': 'json',
+  'application/ld+json': 'json',
+  'application/hal+json': 'json',
+  'application/vnd.api+json': 'json',
+  'application/xml': 'xml',
+  'text/html': 'html',
+  'text/plain': 'txt',
+  'image/svg+xml': 'xml'
+}

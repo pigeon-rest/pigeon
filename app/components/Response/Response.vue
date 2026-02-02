@@ -6,6 +6,8 @@ const props = defineProps<{
   data: InternalApi['/api/proxy']['post']
 }>()
 
+const lang = ref(mimeToLang(props.data.response.body.mediaType || ''))
+
 const responseItems = computed<TabsItem[]>(() => {
   const headers = props.data.response?.headers
   const headersCount = headers ? Object.keys(headers).length : 0
@@ -26,14 +28,10 @@ const responseItems = computed<TabsItem[]>(() => {
   ]
 })
 
-const lang = ref(
-  languageFromContentType(props.data.response.body.mediaType || '')
-)
-
 watch(
   () => props.data.response.body.mediaType,
   (type) => {
-    lang.value = languageFromContentType(type || '')
+    lang.value = mimeToLang(type || '')
   }
 )
 </script>

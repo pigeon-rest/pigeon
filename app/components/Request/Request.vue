@@ -2,6 +2,17 @@
 import * as v from 'valibot'
 import type { FormSubmitEvent, SelectItem, TabsItem } from '@nuxt/ui'
 
+defineShortcuts({
+  meta_enter: () => form.value?.submit(),
+  alt_arrowup: () => nextMethod(),
+  alt_arrowdown: () => previousMethod(),
+  alt_g: () => (state.method = 'GET'),
+  alt_p: () => (state.method = 'POST'),
+  alt_u: () => (state.method = 'PUT'),
+  alt_x: () => (state.method = 'DELETE'),
+  alt_h: () => (state.method = 'HEAD')
+})
+
 const schema = v.object({
   url: v.pipe(v.string(), v.url('Invalid URL format')),
   method: v.picklist(
@@ -63,7 +74,7 @@ const methods = ref([
 ] satisfies SelectItem[])
 
 const requestBodyContent = ref('')
-const requestBodyLang = ref('json')
+const requestBodyMime = ref('application/json')
 const requestHeaders = ref([
   {
     key: '',
@@ -114,30 +125,6 @@ const headers = computed(() =>
   }, {})
 )
 
-const contentType = computed(() => {
-  switch (requestBodyLang.value) {
-    case 'json':
-      return 'application/json'
-    case 'xml':
-      return 'application/xml'
-    case 'html':
-      return 'text/html'
-    default:
-      return 'text/plain'
-  }
-})
-
-defineShortcuts({
-  meta_enter: () => form.value?.submit(),
-  alt_arrowup: () => nextMethod(),
-  alt_arrowdown: () => previousMethod(),
-  alt_g: () => (state.method = 'GET'),
-  alt_p: () => (state.method = 'POST'),
-  alt_u: () => (state.method = 'PUT'),
-  alt_x: () => (state.method = 'DELETE'),
-  alt_h: () => (state.method = 'HEAD')
-})
-
 const { isLoading, send, abort } = usePigeon()
 
 async function onSubmit({ data }: FormSubmitEvent<Schema>) {
@@ -146,7 +133,7 @@ async function onSubmit({ data }: FormSubmitEvent<Schema>) {
     body: requestBodyContent.value,
     headers: {
       ...(requestBodyContent.value
-        ? { 'content-type': contentType.value }
+        ? { 'content-type': requestBodyMime.value }
         : {}),
       ...headers.value
     }
@@ -246,7 +233,7 @@ function getMethodClass(method: string) {
         <template #body>
           <RequestBody
             v-model:content="requestBodyContent"
-            v-model:lang="requestBodyLang"
+            v-model:mime="requestBodyMime"
           />
         </template>
 

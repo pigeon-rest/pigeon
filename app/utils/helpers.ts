@@ -1,5 +1,3 @@
-import mime from 'mime-types'
-
 export function getStatusDescription(code: number) {
   if (STATUS_DESCRIPTIONS[code]) {
     return STATUS_DESCRIPTIONS[code]
@@ -38,22 +36,10 @@ export function getStatusColor(code: number) {
   return 'neutral'
 }
 
-export function languageFromContentType(contentType: string) {
-  const mimeType = contentType.split(';')[0]?.trim().toLowerCase()
-  const ext = mime.extension(mimeType || '') || null
+export function mimeToLang(contentType: string) {
+  const mime = contentType.split(';')[0]!.trim().toLowerCase()
 
-  switch (ext) {
-    case 'json':
-      return 'json'
-    case 'xml':
-      return 'xml'
-    case 'html':
-      return 'html'
-    case 'svg':
-      return 'xml'
-  }
-
-  return 'raw'
+  return MIME_TYPES[mime] || 'txt'
 }
 
 export function isImageMimeType(mimeType: string) {

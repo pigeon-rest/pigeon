@@ -8,25 +8,6 @@ const props = defineProps<{
   data: InternalApi['/api/proxy']['post']
 }>()
 
-const formatMs = (ms: number) => {
-  return prettyMs(ms).replace(/([0-9])([a-z])/g, '$1 $2')
-}
-
-const formatDate = (dateStr?: string) => {
-  if (!dateStr) return ''
-
-  return new Date(dateStr).toLocaleDateString('en-US', {
-    day: '2-digit',
-    month: 'short',
-    year: 'numeric',
-    hour: 'numeric',
-    minute: '2-digit',
-    second: 'numeric',
-    timeZoneName: 'short',
-    timeZone: 'GMT'
-  })
-}
-
 const timingItems = computed(() => [
   {
     label: 'Response Time',
@@ -106,6 +87,25 @@ const networkItems = computed(() => {
 
   return items.filter((i) => i.value)
 })
+
+function formatMs(ms: number) {
+  return prettyMs(ms).replace(/([0-9])([a-z])/g, '$1 $2')
+}
+
+function formatDate(dateStr?: string) {
+  if (!dateStr) return ''
+
+  return new Date(dateStr).toLocaleDateString('en-US', {
+    day: '2-digit',
+    month: 'short',
+    year: 'numeric',
+    hour: 'numeric',
+    minute: '2-digit',
+    second: 'numeric',
+    timeZoneName: 'short',
+    timeZone: 'GMT'
+  })
+}
 </script>
 
 <template>
