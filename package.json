@@ -29,14 +29,12 @@
     "@vueuse/nuxt": "^14.1.0",
     "cookie-es": "^2.0.0",
     "got": "^14.6.6",
-    "mime-types": "^3.0.2",
     "nuxt": "^4.2.2",
     "pretty-ms": "^9.3.0",
     "tough-cookie": "^6.0.0",
     "valibot": "^1.2.0"
   },
   "devDependencies": {
-    "@types/mime-types": "^3.0.1",
     "prettier": "^3.8.0",
     "typescript": "^5.9.3",
     "vue-tsc": "^3.2.1"
