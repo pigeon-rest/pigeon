@@ -19,7 +19,7 @@ export function usePigeon() {
           request: {
             body: data.body,
             headers: {
-              'User-Agent': 'Pigeon/0.0.1',
+              'user-agent': 'Pigeon/0.0.1',
               ...data.headers
             },
             method: data.method,

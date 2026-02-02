@@ -73,6 +73,13 @@ const lang = ref(
 
 const requestBodyContent = ref('')
 const requestBodyLang = ref('json')
+const requestHeaders = ref([
+  {
+    key: '',
+    value: '',
+    active: true
+  }
+])
 
 const form = useTemplateRef('form')
 
@@ -81,28 +88,70 @@ const state = reactive<Schema>({
   method: 'GET'
 })
 
-const requestItems = computed<TabsItem[]>(() => [
-  {
-    label: 'Body',
-    slot: 'body'
+const headers = computed(() =>
+  requestHeaders.value.reduce<Record<string, string>>((acc, header) => {
+    if (header.active && header.key) {
+      acc[header.key.toLowerCase()] = header.value
+    }
+    return acc
+  }, {})
+)
+
+const contentType = computed(() => {
+  switch (requestBodyLang.value) {
+    case 'json':
+      return 'application/json'
+    case 'xml':
+      return 'application/xml'
+    case 'html':
+      return 'text/html'
+    default:
+      return 'text/plain'
   }
-])
-const responseItems = computed<TabsItem[]>(() => [
-  {
-    label: 'Body',
-    slot: 'body'
-  },
-  {
-    label: 'Headers',
-    slot: 'headers',
-    badge: response.value
-      ? {
-          label: Object.keys(response.value.response.headers).length.toString(),
-          variant: 'soft'
-        }
-      : undefined
-  }
-])
+})
+
+const requestItems = computed<TabsItem[]>(() => {
+  const activeHeadersCount = requestHeaders.value.filter(
+    (h) => h.active && h.key
+  ).length
+
+  return [
+    {
+      label: 'Body',
+      slot: 'body'
+    },
+    {
+      label: 'Headers',
+      slot: 'headers',
+      badge:
+        activeHeadersCount > 0
+          ? {
+              label: activeHeadersCount.toString(),
+              variant: 'soft'
+            }
+          : undefined
+    }
+  ]
+})
+const responseItems = computed<TabsItem[]>(() => {
+  const headers = response.value?.response?.headers
+  const headersCount = headers ? Object.keys(headers).length : 0
+
+  return [
+    {
+      label: 'Body',
+      slot: 'body'
+    },
+    {
+      label: 'Headers',
+      slot: 'headers',
+      badge:
+        headersCount > 0
+          ? { label: headersCount.toString(), variant: 'soft' }
+          : undefined
+    }
+  ]
+})
 
 defineShortcuts({
   meta_enter: () => form.value?.submit(),
@@ -135,7 +184,16 @@ function previousMethod() {
 }
 
 async function onSubmit({ data }: FormSubmitEvent<Schema>) {
-  await send({ ...data })
+  await send({
+    ...data,
+    body: requestBodyContent.value,
+    headers: {
+      ...(requestBodyContent.value
+        ? { 'content-type': contentType.value }
+        : {}),
+      ...headers.value
+    }
+  })
 }
 
 watch(
@@ -232,6 +290,10 @@ watch(
                     v-model:content="requestBodyContent"
                     v-model:lang="requestBodyLang"
                   />
+                </template>
+
+                <template #headers>
+                  <RequestHeaders v-model="requestHeaders" />
                 </template>
               </UTabs>
             </div>
