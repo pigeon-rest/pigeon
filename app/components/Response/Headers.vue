@@ -18,12 +18,10 @@ function copy(key: string, value: string) {
 
 <template>
   <div class="flex flex-col flex-1 overflow-y-auto">
-    <div class="sticky top-0 z-10 flex border-b border-b-muted bg-default">
-      <div
-        class="flex flex-1 p-2 text-xs font-medium pl-6 border-r border-r-default"
-      >
-        Key
-      </div>
+    <div
+      class="sticky top-0 z-10 flex border-b border-b-muted divide-x divide-default bg-default"
+    >
+      <div class="flex flex-1 p-2 text-xs font-medium pl-6">Key</div>
       <div class="flex flex-1 p-2 text-xs font-medium pr-6">Value</div>
     </div>
     <div

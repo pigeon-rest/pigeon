@@ -3,9 +3,12 @@ import { FetchError } from 'ofetch'
 import type { InternalApi } from 'nitropack'
 
 export function usePigeon() {
-  const isLoading = ref(false)
-  const response = ref<InternalApi['/api/proxy']['post'] | null>(null)
-  const error = ref<FetchError | null>(null)
+  const isLoading = useState<boolean>('pigeon:isLoading', () => false)
+  const response = useState<InternalApi['/api/proxy']['post'] | null>(
+    'pigeon:response',
+    () => null
+  )
+  const error = useState<FetchError | null>('pigeon:error', () => null)
   let abortController: AbortController | null = null
 
   const send = async (data: any) => {

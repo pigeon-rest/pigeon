@@ -54,8 +54,10 @@ const removeHeader = (index: number) => {
 </script>
 
 <template>
-  <div class="flex flex-col flex-1">
-    <div class="flex border-b border-b-muted divide-x divide-default">
+  <div class="flex flex-col flex-1 overflow-y-auto">
+    <div
+      class="sticky top-0 z-10 flex border-b border-b-muted divide-x divide-default bg-default"
+    >
       <div class="flex p-2 text-xs font-medium pl-6 w-16" />
       <div class="flex flex-1 p-2 text-xs font-medium">Key</div>
       <div class="flex flex-1 p-2 text-xs font-medium pr-6">Value</div>
