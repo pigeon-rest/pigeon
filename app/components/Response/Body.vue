@@ -17,6 +17,11 @@ defineShortcuts({
   meta_shift_v: () => (showPreview.value = !showPreview.value)
 })
 
+const editor = ref<HTMLElement | null>(null)
+const isLineWrapped = ref(true)
+const previewUrl = ref<string | null>(null)
+const showPreview = ref(true)
+
 const languages = ref<SelectItem[]>([
   {
     label: 'JSON',
@@ -32,7 +37,7 @@ const languages = ref<SelectItem[]>([
   },
   {
     label: 'Raw',
-    value: 'raw'
+    value: 'txt'
   }
 ])
 
@@ -62,17 +67,23 @@ const isPreviewable = computed(
     isVideoMimeType(mimeType.value)
 )
 
-const editor = ref<HTMLElement | null>(null)
-const isLineWrapped = ref(true)
-const previewUrl = ref<string | null>(null)
-const showPreview = ref(true)
+const formattedContent = computed(() => {
+  try {
+    if (props.lang === 'json') {
+      const obj = JSON.parse(textContent.value)
 
-const formattedContent = ref('')
+      return JSON.stringify(obj, null, 2)
+    }
+  } catch {
+    return textContent.value
+  }
+
+  return textContent.value
+})
 
 const { copy, copied } = useClipboard()
 const colorMode = useColorMode()
 const codemirror = useCodeMirror({ theme: colorMode.value, readOnly: true })
-const { format } = usePrettier()
 
 function download() {
   const blob = new Blob([uint8Content.value], { type: mimeType.value })
@@ -85,17 +96,6 @@ function download() {
   link.click()
   URL.revokeObjectURL(url)
 }
-
-watchEffect(async () => {
-  const rawContent = textContent.value
-
-  if (!rawContent) {
-    formattedContent.value = ''
-    return
-  }
-
-  formattedContent.value = await format(rawContent, props.lang)
-})
 
 watchEffect((onCleanup) => {
   if (isPreviewable.value && uint8Content.value.length > 0) {
