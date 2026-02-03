@@ -62,7 +62,7 @@ function onFileChange() {
 
       if (typeof result === 'string') {
         emit('update:content', result)
-        emit('update:mime', file.value?.type || '')
+        emit('update:mime', file.value?.type || 'text/plain')
       }
     }
 
@@ -74,7 +74,7 @@ watch(colorMode, (theme) => codemirror.setTheme(theme.value))
 watch(() => props.content, codemirror.setContent)
 watch(
   () => props.mime,
-  () => codemirror.setLanguage(mimeToLang(props.mime) || 'plaintext')
+  () => codemirror.setLanguage(mimeToLang(props.mime) || 'txt')
 )
 watch(isLineWrapped, codemirror.setLineWrapping)
 
