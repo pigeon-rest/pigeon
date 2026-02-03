@@ -12,6 +12,9 @@ const responseItems = computed<TabsItem[]>(() => {
   const headers = props.data.response?.headers
   const headersCount = headers ? Object.keys(headers).length : 0
 
+  const cookies = props.data.response?.cookies
+  const cookiesCount = cookies ? cookies.length : 0
+
   return [
     {
       label: 'Body',
@@ -23,6 +26,14 @@ const responseItems = computed<TabsItem[]>(() => {
       badge:
         headersCount > 0
           ? { label: headersCount.toString(), variant: 'soft' }
+          : undefined
+    },
+    {
+      label: 'Cookies',
+      slot: 'cookies',
+      badge:
+        cookiesCount > 0
+          ? { label: cookiesCount.toString(), variant: 'soft' }
           : undefined
     }
   ]
@@ -60,6 +71,10 @@ watch(
 
       <template #headers>
         <ResponseHeaders :data="props.data.response.headers" />
+      </template>
+
+      <template #cookies>
+        <ResponseCookies :data="props.data.response.cookies" />
       </template>
     </UTabs>
   </div>
