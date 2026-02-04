@@ -75,6 +75,13 @@ const methods = ref([
 
 const requestBodyContent = ref('')
 const requestBodyMime = ref('application/json')
+const requestParameters = ref([
+  {
+    key: '',
+    value: '',
+    active: true
+  }
+])
 const requestHeaders = ref([
   {
     key: '',
@@ -93,11 +100,25 @@ const state = reactive<Schema>({
 const form = useTemplateRef('form')
 
 const requestItems = computed<TabsItem[]>(() => {
+  const activeParametersCount = requestParameters.value.filter(
+    (p) => p.active && p.key
+  ).length
   const activeHeadersCount = requestHeaders.value.filter(
     (h) => h.active && h.key
   ).length
 
   return [
+    {
+      label: 'Parameters',
+      slot: 'parameters',
+      badge:
+        activeParametersCount > 0
+          ? {
+              label: activeParametersCount.toString(),
+              variant: 'soft'
+            }
+          : undefined
+    },
     {
       label: 'Body',
       slot: 'body'
@@ -116,6 +137,15 @@ const requestItems = computed<TabsItem[]>(() => {
   ]
 })
 
+const params = computed(() =>
+  requestParameters.value.reduce<Record<string, string>>((acc, param) => {
+    if (param.active && param.key) {
+      acc[param.key] = param.value
+    }
+    return acc
+  }, {})
+)
+
 const headers = computed(() =>
   requestHeaders.value.reduce<Record<string, string>>((acc, header) => {
     if (header.active && header.key) {
@@ -131,6 +161,7 @@ async function onSubmit({ data }: FormSubmitEvent<Schema>) {
   await send({
     ...data,
     body: requestBodyContent.value,
+    params: params.value,
     headers: {
       ...(requestBodyContent.value
         ? { 'content-type': requestBodyMime.value }
@@ -239,6 +270,10 @@ function getMethodClass(method: string) {
 
         <template #headers>
           <RequestHeaders v-model="requestHeaders" />
+        </template>
+
+        <template #parameters>
+          <RequestParameters v-model="requestParameters" />
         </template>
       </UTabs>
     </div>
