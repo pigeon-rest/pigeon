@@ -7,7 +7,8 @@
     "dev": "nuxt dev",
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare",
-    "lint": "prettier --write .",
+    "lint": "prettier --check .",
+    "lint:fix": "prettier --write .",
     "typecheck": "nuxt typecheck"
   },
   "dependencies": {
