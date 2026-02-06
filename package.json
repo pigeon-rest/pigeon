@@ -13,21 +13,21 @@
   },
   "dependencies": {
     "@codemirror/autocomplete": "^6.20.0",
-    "@codemirror/commands": "^6.10.1",
+    "@codemirror/commands": "^6.10.2",
     "@codemirror/lang-html": "^6.4.11",
     "@codemirror/lang-json": "^6.0.2",
     "@codemirror/lang-xml": "^6.1.0",
     "@codemirror/language": "^6.12.1",
     "@codemirror/search": "^6.6.0",
     "@codemirror/state": "^6.5.4",
-    "@codemirror/view": "^6.39.11",
+    "@codemirror/view": "^6.39.12",
     "@iconify-json/ph": "^1.2.2",
-    "@iconify-json/simple-icons": "^1.2.63",
+    "@iconify-json/simple-icons": "^1.2.69",
     "@nuxt/ui": "^4.4.0",
-    "@nuxtjs/mdc": "^0.20.0",
+    "@nuxtjs/mdc": "^0.20.1",
     "@types/got": "^9.6.12",
-    "@vueuse/core": "^14.1.0",
-    "@vueuse/nuxt": "^14.1.0",
+    "@vueuse/core": "^14.2.0",
+    "@vueuse/nuxt": "^14.2.0",
     "cookie-es": "^2.0.0",
     "got": "^14.6.6",
     "nuxt": "^4.3.0",
@@ -37,9 +37,9 @@
     "valibot": "^1.2.0"
   },
   "devDependencies": {
-    "prettier": "^3.8.0",
+    "prettier": "^3.8.1",
     "typescript": "^5.9.3",
-    "vue-tsc": "^3.2.1"
+    "vue-tsc": "^3.2.4"
   },
   "packageManager": "pnpm@10.28.2"
 }
