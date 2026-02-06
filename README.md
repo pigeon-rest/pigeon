@@ -3,7 +3,6 @@
     src="https://avatars.githubusercontent.com/u/254253860"
     alt="Pigeon REST"
     width="64"
-    style="border-radius: 8px;"
   />
 
 ### **Pigeon REST**
@@ -18,8 +17,7 @@
       <picture>
         <img
           alt="Pigeon REST"
-          src="./github/assets/images/banner-dark.png"
-          style="border-radius: 16px;"
+          src="./.github/assets/images/banner-dark.png"
         >
       </picture>
     </a>
