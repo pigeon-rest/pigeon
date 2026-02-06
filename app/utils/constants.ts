@@ -70,7 +70,10 @@ export const STATUS_DESCRIPTIONS: Record<number, string> = {
   507: 'The method could not be performed on the resource because the server is unable to store the representation needed to successfully complete the request.',
   508: 'The server detected an infinite loop while processing the request.',
   510: 'The client request declares an HTTP Extension ([`RFC 2774`](https://datatracker.ietf.org/doc/html/rfc2774)) that should be used to process the request, but the extension is not supported.',
-  511: 'Indicates that the client needs to authenticate to gain network access.'
+  511: 'Indicates that the client needs to authenticate to gain network access.',
+  520: 'The origin server returned an empty, unknown, or unexpected response to Cloudflare.',
+  521: 'The origin server refused connections from Cloudflare. Security solutions at the origin may be blocking legitimate connections from certain Cloudflare IP addresses.',
+  522: 'Cloudflare timed out contacting the origin server.'
 }
 
 export const MIME_TYPES: Record<string, string> = {
