@@ -30,7 +30,7 @@
     "@vueuse/core": "^14.3.0",
     "@vueuse/nuxt": "^14.3.0",
     "cookie-es": "^2.0.1",
-    "got": "^14.6.6",
+    "got": "^15.0.6",
     "nuxt": "^4.4.5",
     "pretty-ms": "^9.3.0",
     "tailwindcss": "^4.3.1",
