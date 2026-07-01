@@ -13,16 +13,16 @@
   },
   "dependencies": {
     "@codemirror/autocomplete": "^6.20.3",
-    "@codemirror/commands": "^6.10.3",
+    "@codemirror/commands": "^6.10.4",
     "@codemirror/lang-html": "^6.4.11",
     "@codemirror/lang-json": "^6.0.2",
     "@codemirror/lang-xml": "^6.1.0",
-    "@codemirror/language": "^6.12.3",
+    "@codemirror/language": "^6.12.4",
     "@codemirror/search": "^6.7.1",
-    "@codemirror/state": "^6.6.0",
-    "@codemirror/view": "^6.43.1",
+    "@codemirror/state": "^6.7.0",
+    "@codemirror/view": "^6.43.4",
     "@iconify-json/ph": "^1.2.2",
-    "@iconify-json/simple-icons": "^1.2.87",
+    "@iconify-json/simple-icons": "^1.2.88",
     "@lezer/highlight": "^1.2.3",
     "@nuxt/ui": "^4.9.0",
     "@nuxtjs/mdc": "^0.22.0",
@@ -30,17 +30,17 @@
     "@vueuse/core": "^14.3.0",
     "@vueuse/nuxt": "^14.3.0",
     "cookie-es": "^3.1.1",
-    "got": "^15.0.6",
+    "got": "^15.0.7",
     "nuxt": "^4.4.8",
     "pretty-ms": "^9.3.0",
-    "tailwindcss": "^4.3.1",
+    "tailwindcss": "^4.3.2",
     "tough-cookie": "^6.0.1",
-    "valibot": "^1.4.1"
+    "valibot": "^1.4.2"
   },
   "devDependencies": {
-    "prettier": "^3.8.4",
+    "prettier": "^3.9.4",
     "typescript": "^6.0.3",
-    "vue-tsc": "^3.3.5"
+    "vue-tsc": "^3.3.6"
   },
   "packageManager": "pnpm@11.9.0+sha512.bd682d5d03fe525ef7c9fd6780c6884d1e756ac4c9c9fe00c538782824310dcf90e3ddc4f53835f06dfaebd5085e41855e0bcbb3b60de2ac5bbab89e5036f03b"
 }
