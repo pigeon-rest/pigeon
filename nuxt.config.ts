@@ -2,6 +2,29 @@
 export default defineNuxtConfig({
   modules: ['@nuxt/ui', '@nuxtjs/mdc', '@vueuse/nuxt'],
 
+  vite: {
+    optimizeDeps: {
+      include: [
+        '@codemirror/autocomplete',
+        '@codemirror/commands',
+        '@codemirror/lang-html',
+        '@codemirror/lang-json',
+        '@codemirror/lang-xml',
+        '@codemirror/language',
+        '@codemirror/search',
+        '@codemirror/state',
+        '@codemirror/view',
+        '@lezer/highlight',
+        'prettier',
+        'prettier/plugins/babel',
+        'prettier/plugins/estree',
+        'prettier/plugins/html',
+        'pretty-ms',
+        'valibot'
+      ]
+    }
+  },
+
   devtools: {
     enabled: true
   },
