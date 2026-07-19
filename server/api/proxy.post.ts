@@ -1,5 +1,5 @@
 import { parseSetCookie } from 'cookie-es'
-import { got, RequestError } from 'got'
+import got, { RequestError } from 'got'
 import { CookieJar } from 'tough-cookie'
 
 import type { TLSSocket } from 'node:tls'
@@ -19,14 +19,21 @@ export default defineEventHandler(async (event) => {
     const hostname = url?.hostname
 
     allCookies.push(
-      ...setCookie.map((c) => ({
-        httpOnly: false,
-        secure: false,
-        sameSite: 'lax' as const,
-        path: '/',
-        domain: hostname,
-        ...parseSetCookie(c)
-      }))
+      ...setCookie.flatMap((c) => {
+        const parsed = parseSetCookie(c)
+        if (!parsed?.name) return []
+
+        const cookie: SetCookie = {
+          httpOnly: false,
+          secure: false,
+          sameSite: 'lax',
+          path: '/',
+          domain: hostname,
+          ...parsed
+        }
+
+        return [cookie]
+      })
     )
   }
 
