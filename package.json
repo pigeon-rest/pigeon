@@ -13,14 +13,14 @@
   },
   "dependencies": {
     "@codemirror/autocomplete": "^6.20.3",
-    "@codemirror/commands": "^6.10.4",
+    "@codemirror/commands": "^6.11.0",
     "@codemirror/lang-html": "^6.4.12",
     "@codemirror/lang-json": "^6.0.2",
     "@codemirror/lang-xml": "^6.1.0",
     "@codemirror/language": "^6.12.4",
     "@codemirror/search": "^6.7.1",
     "@codemirror/state": "^6.7.1",
-    "@codemirror/view": "^6.43.8",
+    "@codemirror/view": "^6.43.9",
     "@iconify-json/ph": "^1.2.2",
     "@iconify-json/simple-icons": "^1.2.93",
     "@lezer/highlight": "^1.2.3",
@@ -40,7 +40,7 @@
   "devDependencies": {
     "prettier": "^3.9.6",
     "typescript": "^7.0.2",
-    "vue-tsc": "^3.3.9"
+    "vue-tsc": "^3.3.11"
   },
-  "packageManager": "pnpm@11.21.0+sha512.521705bce689924eac72f5a3587122f362689ef6571e55ba80076fd637c11132ecffada26fad4ea79c485bfddbfd3d5a2a5b05805a77e893de71ec8a6cca3bb1"
+  "packageManager": "pnpm@11.22.0+sha512.1ff870c4c6133dfd88fb2afc46dd13d47f09c9794b438c6fdb47ca98caf3bc16381ee0be93a091b8e3824cf01f889f46d7d9e20910fb0be1ab0fb5baa80dd621"
 }
